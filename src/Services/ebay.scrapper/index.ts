@@ -34,13 +34,17 @@ async function getItems($: cheerio.Root): Promise<Item[]> {
                 .text()
                 .split("Sold")[1]
                 .trim();
-            const link = $(element).find("div > div > a").attr("href");
-            obj.product_link = link;
-            obj.item_hash = Qs.parse(link)["hash"] as string;
-            obj.sub_title = $(element)
-                .find("div > div > div.s-item__subtitle")
-                .contents()
-                .text();
+            obj.product_link = $(element).find("div > div > a").attr("href");
+            obj.item_hash = $(element)
+                .find("div > div > a")
+                .attr("href")
+                .split("hash=")[1]
+                .split("&")[0];
+            obj.sub_title = "";
+            // $(element)
+            //     .find("div > div > div.s-item__subtitle")
+            //     .contents()
+            //     .text();
             const rating = $(element).find("div > div > div.s-item__reviews");
             const rate_link = rating.find("a").attr("href");
             obj.rating_link = rate_link ? rate_link : "";

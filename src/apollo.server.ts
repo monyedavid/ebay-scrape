@@ -23,6 +23,7 @@ import { createServer } from "http";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import EbayBot from "./Services/bot";
+import { createConnection } from "typeorm";
 
 const RedisStore = connectRedis(session);
 const sessionSecret = process.env.SESSION_SECRET as string;
@@ -35,6 +36,11 @@ export const pubSub = new RedisPubSub({
 export const startServer = async () => {
     const app = express();
     const schema = genschema();
+
+    /**
+     * @description   Establish TypeORM connection
+     */
+    await createConnection();
 
     /**
      * @description   GraphQl Server Logger

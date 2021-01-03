@@ -19,6 +19,7 @@
     "@types/jsonfile": "^6.0.0",
     "@types/moment": "^2.13.0",
     "@types/morgan": "^1.9.2",
+    "@types/mysql": "^2.15.17",
     "@types/node": "^14.14.17",
     "@types/node-cron": "^2.0.3",
     "@types/request": "^2.48.5",
@@ -60,11 +61,13 @@
     "merge-graphql-schemas": "^1.7.8",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
+    "typeorm": "^0.2.29",
     "uuid": "^8.3.2"
   },
   "scripts": {
@@ -73,7 +76,8 @@
     "start": "node build/index.js",
     "start:dev": "NODE_ENV=local nodemon --exec ts-node --files src/index.ts",
     "test": "jest --detectOpenHandles --no-cache --coverage",
-    "test:watch": "jest --watch --detectOpenHandles --no-cache --coverage"
+    "test:watch": "jest --watch --detectOpenHandles --no-cache --coverage",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "jest": {
     "transform": {

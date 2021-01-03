@@ -1,0 +1,17 @@
+  {
+    "name": "default",
+    "type": "mysql",
+    "port": 5050,
+    "host": "localhost",
+    "username": "root",
+    "password": "root-pass",
+    "database": "naze",
+    "migrationsRun": true,
+    "logging": ["error", "warn", "log", "query"],
+    "entities": ["src/Database/entities/*.ts"],
+    "migrations": ["src/Database/migration/*.ts"],
+    "cli": {
+      "entitiesDir": "src/Database/entities",
+      "migrationsDir": "src/Database/migration"
+    }
+  }

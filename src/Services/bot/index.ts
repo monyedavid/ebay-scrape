@@ -1,5 +1,5 @@
-import { unlink } from "fs";
 import jsonfile from "jsonfile";
+import { naze } from "../../Database/entities/naze";
 import { url, ps5, series_x } from "../../Utils/constants";
 import cron_scheduler from "../cron";
 import { ebay } from "../ebay.scrapper";
@@ -15,57 +15,77 @@ export default class EbayBot {
      * @description      Scrape ebay & generate local data collection
      */
     private async autoScrape() {
-        this.xbox();
-        this.ps();
+        this.console().then();
+        this.console(ps5, "ps5").then();
     }
 
-    private async xbox() {
+    private async console(
+        console_url_query: string = series_x,
+        console_type: string = "xbox"
+    ) {
         const _ipg = 200; // Highest item per_page
+        // const tc = parseInt(total_count, 10); | tc / _ipg | 10k is ebay max
+        const number_of_available_pages = 10000 / _ipg;
 
-        // remove previous sale_record
-        unlink(this.xbox_file, () => {});
+        const items = await naze.find({ where: { console_type } });
 
-        // const tc = parseInt(total_count, 10); // tc / _ipg;
-        const number_of_available_pages = 10000 / _ipg; // | 10k is ebay max
-        for (
-            let page_number = number_of_available_pages;
-            page_number > 0;
-            page_number--
-        ) {
-            const { data } = await ebay(url(page_number, series_x, _ipg));
-            jsonfile.writeFile(
-                this.xbox_file,
-                data,
-                { flag: "a" },
-                function (err) {
-                    console.error("[err]", err);
+        if (!items.length) {
+            for (
+                let page_number = number_of_available_pages;
+                page_number > 0;
+                page_number--
+            ) {
+                const { data } = await ebay(
+                    url(page_number, console_url_query, _ipg)
+                );
+
+                for (let index = data.length - 1; index >= 0; index--) {
+                    await naze.insert({
+                        ...data[index],
+                        console_type,
+                    });
                 }
-            );
-        }
-    }
+            }
+        } else {
+            let page = 1;
+            const ipg = 25;
+            let keep_looking = true;
+            const to_save = []; // save in reverse-order
 
-    private async ps() {
-        const _ipg = 200; // Highest item per_page
+            const { item_hash, ...rest } = await naze.findOne({
+                order: { id: "DESC" },
+                where: { console_type },
+            });
 
-        // remove previous sale_record
-        await unlink(this.ps_file, () => {});
+            while (keep_looking) {
+                const { data } = await ebay(url(page, console_url_query, ipg));
 
-        // const tc = parseInt(total_count, 10); // tc / _ipg;
-        const number_of_available_pages = 10000 / _ipg; // | 10k is ebay max
-        for (
-            let page_number = number_of_available_pages;
-            page_number > 0;
-            page_number--
-        ) {
-            const { data } = await ebay(url(page_number, ps5, _ipg));
-            jsonfile.writeFile(
-                this.ps_file,
-                data,
-                { flag: "a" },
-                function (err) {
-                    console.error("[err]", err);
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].item_hash == item_hash) {
+                        // identify marker item
+                        // exist search for new item
+                        keep_looking = false;
+                        break;
+                    } else {
+                        // new-item
+                        to_save.push(
+                            naze.create({
+                                ...data[i],
+                                console_type,
+                            })
+                        );
+                    }
                 }
-            );
+
+                page++;
+            }
+
+            for (let index = to_save.length - 1; index >= 0; index--) {
+                await naze.insert({
+                    ...to_save[index],
+                    console_type: "xbox",
+                });
+            }
         }
     }
 
