@@ -1,0 +1,20 @@
+# For Production
+version: "3.8"
+services:
+    server:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        image: abc/naze
+        container_name: naze
+        ports:
+            - "4000:4000"
+        command: yarn start
+        restart: always
+        depends_on:
+            - redis
+    redis: # <using redis>
+        image: redis
+        container_name: naze_cache
+        ports:
+            - "6379:6379"

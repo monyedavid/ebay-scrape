@@ -1,0 +1,37 @@
+type Query {
+    # From Ebay
+    ebay_ps5(page: Int!): ConsoleStat!
+    ebay_xbox(page: Int!): ConsoleStat!
+
+    # From Storage
+    ps5(options: options!): ConsoleStat!
+    xbox(options: options!): ConsoleStat!
+}
+
+type subscription {
+    # From Ebay -- Live updates
+    console_live_sales(console: String): [Item]
+}
+
+input options {
+    take: Int
+    skip: Int
+    date: String # Defaults to today if not provided
+}
+
+type ConsoleStat {
+    total_count: String
+    data: [Item]
+}
+
+type Item {
+    date_sold: String
+    item_hash: String
+    product_link: String
+    product_price: String
+    product_bids: String
+    rating: String
+    rating_link: String
+    rating_review_count: String
+    sub_title: String
+}
