@@ -11,7 +11,7 @@ export const httpOnly =
     process.env.NODE_ENV === "development";
 
 // ..
-export const ps5 = "play+station+5+console";
+export const ps5 = "playstation+5+console";
 export const series_x = "xbox+series+x+console";
 export const url = (
     pgn: number = 1,

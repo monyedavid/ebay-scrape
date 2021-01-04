@@ -6,11 +6,15 @@ type Query {
     # From Storage
     get(console: String!, options: options!): ConsoleStat!
     daily(console: String!, options: options!): ConsoleStat!
+
+    # From Ebay
+    live_sales(console: String!): Boolean
 }
 
-type subscription {
+type Subscription {
     # From Ebay -- Live updates
-    live_sales(console: String): [Item]
+    live_sales_seriesx: [Item]
+    live_sales_ps5: [Item]
 }
 
 type Error {

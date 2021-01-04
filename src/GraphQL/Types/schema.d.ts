@@ -3,7 +3,7 @@
 
 declare namespace GQL {
 interface IGraphQLResponseRoot {
-data?: IQuery;
+data?: IQuery | ISubscription;
 errors?: Array<IGraphQLResponseError>;
 }
 
@@ -34,6 +34,11 @@ ebay_xbox: IConsoleStat;
  */
 get: IConsoleStat;
 daily: IConsoleStat;
+
+/**
+ * From Ebay
+ */
+live_sales: boolean | null;
 }
 
 interface IEbayPs5OnQueryArguments {
@@ -52,6 +57,10 @@ options: IOptions;
 interface IDailyOnQueryArguments {
 console: string;
 options: IOptions;
+}
+
+interface ILiveSalesOnQueryArguments {
+console: string;
 }
 
 interface IConsoleStat {
@@ -87,16 +96,13 @@ date?: string | null;
 }
 
 interface ISubscription {
-__typename: "subscription";
+__typename: "Subscription";
 
 /**
  * From Ebay -- Live updates
  */
-live_sales: Array<IItem | null> | null;
-}
-
-interface ILiveSalesOnSubscriptionArguments {
-console?: string | null;
+live_sales_seriesx: Array<IItem | null> | null;
+live_sales_ps5: Array<IItem | null> | null;
 }
 }
 
