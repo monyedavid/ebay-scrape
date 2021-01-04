@@ -1,5 +1,6 @@
-  {
-    "name": "default",
+[
+    {
+    "name": "development",
     "type": "mysql",
     "port": 3306,
     "host": "naze_db",
@@ -14,4 +15,18 @@
       "entitiesDir": "src/Database/entities",
       "migrationsDir": "src/Database/migration"
     }
+  },
+    {
+    "name": "production",
+    "type": "mysql",
+    "port": 3306,
+    "host": "naze_db",
+    "username": "root",
+    "password": "root-pass",
+    "database": "naze",
+    "migrationsRun": true,
+    "logging": ["error", "warn", "log", "query"],
+    "entities": ["build/Database/entities/*.ts"],
+    "migrations": ["build/Database/migration/*.ts"]
   }
+]

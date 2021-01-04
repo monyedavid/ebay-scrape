@@ -8,8 +8,10 @@ services:
         image: abc/naze
         container_name: naze
         environment:
-            REDIS_HOST: redis
+            REDIS_HOST: naze_redis
             REDIS_PORT: 6379
+            NODE_ENV: production
+            PORT: 4949
         ports:
             - "4949:4949"
         command: yarn start

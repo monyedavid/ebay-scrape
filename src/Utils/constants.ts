@@ -6,6 +6,8 @@ export const redisSessionPrefix = "sess:";
 export const inProduction = process.env.NODE_ENV === "production";
 export const inDevelopment = process.env.NODE_ENV === "development";
 
+export const conn_name = inProduction ? "production" : "development";
+
 export const httpOnly =
     process.env.NODE_ENV === "production" ||
     process.env.NODE_ENV === "development";

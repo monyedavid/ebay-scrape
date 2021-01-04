@@ -17,6 +17,7 @@ import {
     serverMessage,
     inDevelopment,
     httpOnly,
+    conn_name,
 } from "./Utils/constants";
 
 import { createServer } from "http";
@@ -40,7 +41,7 @@ export const startServer = async () => {
     /**
      * @description   Establish TypeORM connection
      */
-    await createConnection();
+    await createConnection(conn_name);
 
     /**
      * @description   GraphQl Server Logger
@@ -105,7 +106,7 @@ export const startServer = async () => {
     const bot = new EbayBot();
     bot.apply();
 
-    const port = process.env.PORT || 4949;
+    const port = process.env.PORT || 4000;
     const server = createServer(app);
 
     server.listen(port, () => {
