@@ -25,8 +25,8 @@
     "password": "root-pass",
     "database": "naze",
     "migrationsRun": true,
-    "logging": ["error", "warn", "log", "query"],
-    "entities": ["build/Database/entities/*.ts"],
-    "migrations": ["build/Database/migration/*.ts"]
+    "logging": ["error", "warn"],
+    "entities": ["build/Database/entities/*.js"],
+    "migrations": ["build/Database/migration/*.js"]
   }
 ]

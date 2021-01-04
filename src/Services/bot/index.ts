@@ -15,10 +15,12 @@ export default class EbayBot {
      * @description      Scrape ebay & generate local data collection
      */
     private async autoScrape() {
-        this.console().then(() => this.console(ps5, "ps5").then());
+        this.get_console_data().then(() =>
+            this.get_console_data(ps5, "ps5").then()
+        );
     }
 
-    private async console(
+    private async get_console_data(
         console_url_query: string = series_x,
         console_type: string = "xbox"
     ) {
@@ -88,6 +90,46 @@ export default class EbayBot {
         }
 
         return;
+    }
+
+    /**
+     * seedStorage
+     */
+    public seedStorage() {
+        async function get_console_data(
+            console_url_query: string = series_x,
+            console_type: string = "xbox"
+        ) {
+            const _ipg = 200; // Highest item per_page
+            // const tc = parseInt(total_count, 10); | tc / _ipg | 10k is ebay max
+            const number_of_available_pages = 10000 / _ipg;
+
+            const items = await naze.find({ where: { console_type } });
+
+            if (!items.length) {
+                console.log("[seeding-storage]");
+                for (
+                    let page_number = number_of_available_pages;
+                    page_number > 0;
+                    page_number--
+                ) {
+                    const { data } = await ebay(
+                        url(page_number, console_url_query, _ipg)
+                    );
+
+                    for (let index = data.length - 1; index >= 0; index--) {
+                        await naze.insert({
+                            ...data[index],
+                            console_type,
+                        });
+                    }
+                }
+            }
+
+            return;
+        }
+
+        get_console_data().then(() => get_console_data(ps5, "ps5").then());
     }
 
     /*

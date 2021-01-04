@@ -24,7 +24,7 @@ import { createServer } from "http";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import EbayBot from "./Services/bot";
-import { createConnection } from "typeorm";
+import { createConnection, getConnectionOptions } from "typeorm";
 
 const RedisStore = connectRedis(session);
 const sessionSecret = process.env.SESSION_SECRET as string;
@@ -34,14 +34,20 @@ export const pubSub = new RedisPubSub({
     subscriber: subRedis,
 });
 
+/**
+ * @description   Establish TypeORM connection
+ */
+async function connection() {
+    const config = await getConnectionOptions(conn_name);
+
+    const conn = await createConnection({ ...config, name: "default" });
+}
+
 export const startServer = async () => {
     const app = express();
     const schema = genschema();
 
-    /**
-     * @description   Establish TypeORM connection
-     */
-    await createConnection(conn_name);
+    await connection();
 
     /**
      * @description   GraphQl Server Logger
@@ -104,6 +110,7 @@ export const startServer = async () => {
 
     /** running automated scrape */
     const bot = new EbayBot();
+    bot.seedStorage();
     bot.apply();
 
     const port = process.env.PORT || 4000;
