@@ -8,7 +8,7 @@ services:
         image: abc/naze
         container_name: naze
         ports:
-            - "4000:4000"
+            - "4949:4949"
         command: yarn start
         restart: always
         depends_on:
@@ -16,8 +16,6 @@ services:
     redis: # <using redis>
         image: redis
         container_name: naze_cache
-        ports:
-            - "6379:6379"
     db:
         image: mysql
         command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake
@@ -25,8 +23,6 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root-pass
             MYSQL_DATABASE: naze
-        ports:
-            - "5050:3306"
         volumes:
             - my-db:/var/lib/mysql
 volumes:

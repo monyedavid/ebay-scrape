@@ -105,7 +105,7 @@ export const startServer = async () => {
     const bot = new EbayBot();
     bot.apply();
 
-    const port = process.env.PORT || 4000;
+    const port = process.env.PORT || 4949;
     const server = createServer(app);
 
     server.listen(port, () => {
