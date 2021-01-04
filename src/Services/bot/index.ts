@@ -8,15 +8,14 @@ export default class EbayBot {
     private xbox_file = "./xbox_sales.json";
     private ps_file = "./ps_sales.json";
     public apply() {
-        cron_scheduler(() => this.autoScrape().then());
+        cron_scheduler(() => this.autoScrape());
     }
 
     /**
      * @description      Scrape ebay & generate local data collection
      */
     private async autoScrape() {
-        this.console().then();
-        this.console(ps5, "ps5").then();
+        this.console().then(() => this.console(ps5, "ps5").then());
     }
 
     private async console(
@@ -87,6 +86,8 @@ export default class EbayBot {
                 });
             }
         }
+
+        return;
     }
 
     /*

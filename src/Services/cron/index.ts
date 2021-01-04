@@ -16,7 +16,7 @@ import cron from "node-cron";
  */
 export default function cron_scheduler(
     f: () => any,
-    schedule_pattern: string = "0 */30 * * * *" // run every 30 mins to avoid bans
+    schedule_pattern: string = "0 */45 * * * *" // run every 45 mins to avoid bans
 ): (boolean | cron.ScheduledTask)[] {
     if (cron.validate(schedule_pattern)) {
         const task = cron.schedule(schedule_pattern, () => {
