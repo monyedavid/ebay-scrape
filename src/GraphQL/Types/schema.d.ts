@@ -32,8 +32,8 @@ ebay_xbox: IConsoleStat;
 /**
  * From Storage
  */
-ps5: IConsoleStat;
-xbox: IConsoleStat;
+get: IConsoleStat;
+daily: IConsoleStat;
 }
 
 interface IEbayPs5OnQueryArguments {
@@ -44,11 +44,13 @@ interface IEbayXboxOnQueryArguments {
 page: number;
 }
 
-interface IPs5OnQueryArguments {
+interface IGetOnQueryArguments {
+console: string;
 options: IOptions;
 }
 
-interface IXboxOnQueryArguments {
+interface IDailyOnQueryArguments {
+console: string;
 options: IOptions;
 }
 
@@ -56,6 +58,7 @@ interface IConsoleStat {
 __typename: "ConsoleStat";
 total_count: string | null;
 data: Array<IItem | null> | null;
+error: Array<IError | null> | null;
 }
 
 interface IItem {
@@ -71,9 +74,15 @@ rating_review_count: string | null;
 sub_title: string | null;
 }
 
+interface IError {
+__typename: "Error";
+path: string;
+message: string;
+}
+
 interface IOptions {
-take?: number | null;
-skip?: number | null;
+take: number;
+skip: number;
 date?: string | null;
 }
 
@@ -83,10 +92,10 @@ __typename: "subscription";
 /**
  * From Ebay -- Live updates
  */
-console_live_sales: Array<IItem | null> | null;
+live_sales: Array<IItem | null> | null;
 }
 
-interface IConsoleLiveSalesOnSubscriptionArguments {
+interface ILiveSalesOnSubscriptionArguments {
 console?: string | null;
 }
 }

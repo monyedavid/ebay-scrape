@@ -4,24 +4,30 @@ type Query {
     ebay_xbox(page: Int!): ConsoleStat!
 
     # From Storage
-    ps5(options: options!): ConsoleStat!
-    xbox(options: options!): ConsoleStat!
+    get(console: String!, options: options!): ConsoleStat!
+    daily(console: String!, options: options!): ConsoleStat!
 }
 
 type subscription {
     # From Ebay -- Live updates
-    console_live_sales(console: String): [Item]
+    live_sales(console: String): [Item]
+}
+
+type Error {
+    path: String!
+    message: String!
 }
 
 input options {
-    take: Int
-    skip: Int
-    date: String # Defaults to today if not provided
+    take: Int!
+    skip: Int!
+    date: String # Returns all Time if not provided | Date-Format: MMM D, YYYY
 }
 
 type ConsoleStat {
     total_count: String
     data: [Item]
+    error: [Error]
 }
 
 type Item {
