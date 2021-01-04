@@ -12,7 +12,8 @@ services:
         command: yarn start
         restart: always
         depends_on:
-            - redis
+            - naze_redis
+            - naze_db
     naze_redis: # <using redis>
         image: redis
         container_name: naze_cache
