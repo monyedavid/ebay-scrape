@@ -2,7 +2,7 @@
     "name": "default",
     "type": "mysql",
     "port": 3306,
-    "host": "localhost",
+    "host": "naze_db",
     "username": "root",
     "password": "root-pass",
     "database": "naze",

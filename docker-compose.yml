@@ -7,6 +7,9 @@ services:
             dockerfile: docker/Dockerfile
         image: abc/naze
         container_name: naze
+        environment:
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
         ports:
             - "4949:4949"
         command: yarn start
