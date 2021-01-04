@@ -130,7 +130,7 @@ export default class EbayBot {
     get_console_data().then(() =>
       setTimeout(() => {
         get_console_data(ps5, "ps5").then();
-      }, 5 * 60 * 1000)
+      }, 10 * 60 * 1000)
     );
   }
 
@@ -142,7 +142,7 @@ export default class EbayBot {
     jsonfile.readFile(this.xbox_file, "utf8", (err, data) => {
       if (err) {
         if (err.code === "ENOENT") {
-          console.error("creating xbox-sales fiile");
+          console.error("creating xbox-sales file");
           jsonfile.writeFileSync(this.xbox_file, "");
           return;
         }
