@@ -50,6 +50,7 @@
 
 ### Built With
 
+-   [TypeScript]()
 -   [Nodejs]()
 -   [GraphQl]()
 -   [Docker]()
