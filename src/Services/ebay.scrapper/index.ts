@@ -1,6 +1,7 @@
 import cheerio from "cheerio";
 import rp from "request-promise";
 import Promises from "bluebird";
+import proxyGenerator from "../proxy-generator";
 
 /**
  * @param         $ cheerio.root instance
@@ -83,6 +84,10 @@ export async function ebay(
   total_count: string;
   data: Item[];
 }> {
+  // const pr = rp.defaults({
+  //   proxy: "http://150.129.55.121:35101",
+  // });
+
   const _options_ = {
     url,
     transform: (body: any) => cheerio.load(body),
